@@ -1,19 +1,19 @@
 var express = require('express');
 var admin = require("firebase-admin");
-var bodyParser = require('body-parser');
-var firebaseMiddleware = require('express-firebase-middleware');
-var cors = require("cors");
+const bodyParser = require('body-parser');
+const firebaseMiddleware = require('express-firebase-middleware');
+const cors = require("cors");
 
-var serviceAccount = require("./mhedrick-recipebook-firebase-adminsdk-mq9yi-4f0a2cd459.json");
+const serviceAccount = require("./mhedrick-recipebook-firebase-adminsdk-mq9yi-4f0a2cd459.json");
 
-var router = express.Router();
+const router = express.Router();
 
-router.use((req, res, next) => {
+router.use(({ next }) => {
     next();
 });
 router.use('/api', firebaseMiddleware.auth); 
 
-var app = express();
+const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -29,8 +29,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/api/hello/', (req, res) => {
-    console.log(res.locals);
+router.get('/api/hello', (req, res) => {
     res.json({
         message: `You're logged in as ${res.locals.user.email} with Firebase UID: ${res.locals.user.uid}`
     });
