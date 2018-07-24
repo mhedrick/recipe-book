@@ -12,7 +12,7 @@ require('dotenv').load();
 //   }
 
 // todo env this
-const serviceAccount = require("./mhedrick-recipebook-firebase-adminsdk-mq9yi-4f0a2cd459.json");
+const serviceAccount = require("../mhedrick-recipebook-firebase-adminsdk-mq9yi-4f0a2cd459.json");
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://mhedrick-recipebook.firebaseio.com"
