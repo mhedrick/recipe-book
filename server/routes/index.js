@@ -42,9 +42,18 @@ router.get('/api/v1/users/:id/recipes', async (req, res) => {
 });
 // crud on recipes
 router.post('/api/v1/recipes/', async (req, res) => {
-    const { userId, recipename, ingredients, instructions } = req.body;
-    const { rows } = await db.query('INSERT INTO recipes (default, recipeName, userId, ingredients, instructions) values ($1, $2, $3, $4) returning *', [userId, recipename, ingredients, instructions]);
-    res.send(rows[0])
+    const { uid, recipename, ingredients, instructions } = req.body;
+    try {
+        console.log("creating recipe", recipename, instructions);
+        let { rows } = await db.query('INSERT INTO recipes (recipeid, userid, recipename, instructions) values (default, (SELECT userid FROM users WHERE firebaseuserid = $1), $2, $3) returning *', [uid, recipename, instructions]);
+        
+        res.send(rows[0])
+    } catch (e) {
+        res.status(500);
+        console.log(e.message);
+        console.log("--");
+        return res.send(JSON.stringify(e.message));
+    }
 });
 router.get('/api/v1/recipes/:id', async (req, res) => {
     const { id } = req.params;

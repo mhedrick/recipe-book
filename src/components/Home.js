@@ -16,9 +16,17 @@ class HomePage extends Component {
     return (
       <div>
         <h1>Home Page</h1>
-        <p>The Home Page is accessible by every signed in user.</p>
-        {recipes.length > 0 && recipes.map((recipe) => (<a href="">link to recipe</a>))}
-        {recipes.length == 0 && <p>No recipes.</p>}
+        {recipes.length > 0 && (
+          <ul>
+            {recipes.map((id) => {
+              const recipeId = Object.keys(id)[0];
+              return (
+                <li key={recipeId}>
+                  <a href={`/recipe/${recipeId}`}>{id[recipeId].recipename}</a>
+                </li>)
+            })}
+          </ul>)}
+        {recipes.length === 0 && <p>No recipes.</p>}
       </div>)
   }
 }
