@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import { auth } from '../firebase';
 
-import * as routes from '../constants/routes';
+import * as routes from '../_constants/routes';
 
 const INITIAL_STATE = {
     username: '',
