@@ -32,8 +32,13 @@ router.get('/api/v1/users/:id', async (req, res) => {
 // get a list of user's recipes
 router.get('/api/v1/users/:id/recipes', async (req, res) => {
     const { id } = req.params;
-    const { rows } = await db.query('SELECT r.* FROM users u, recipes r WHERE u.userId = r.userId and u.userid = $1', [id]);
-    res.send(rows[0])
+    const { rows } = await db.query('SELECT r.* FROM users u, recipes r WHERE u.userid = r.userid and u.firebaseuserid = $1', [id]);
+    
+    let normalized = rows.map((row) => ({
+        [row.recipeid]: row
+    }));
+    
+    res.send(JSON.stringify(normalized));
 });
 // crud on recipes
 router.post('/api/v1/recipes/', async (req, res) => {
@@ -44,7 +49,7 @@ router.post('/api/v1/recipes/', async (req, res) => {
 router.get('/api/v1/recipes/:id', async (req, res) => {
     const { id } = req.params;
     const { rows } = await db.query('SELECT * FROM recipes WHERE recipeid = $1', [id]);
-    res.send(rows[0])
+    res.send(rows)
 });
 router.put('/api/v1/recipes/:id', async (req, res) => {
     const { id } = req.params;
