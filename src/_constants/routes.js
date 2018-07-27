@@ -7,3 +7,4 @@ export const PASSWORD_FORGET = '/pw-forget';
 
 
 export const CREATE = '/create';
+export const VIEW = '/recipe/:id';

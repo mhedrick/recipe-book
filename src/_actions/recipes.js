@@ -16,14 +16,13 @@ function receiveRecipes(userId, recipes) {
         receivedAt: Date.now()
     }
 };
-function receiveRecipe(userId, recipe) {
+
+export const selectRecipe = (recipe) => {
     return {
-        type: "RECEIVE_RECIPE",
-        userId,
-        recipe,
-        receivedAt: Date.now()
+        type: "SELECT_RECIPE",
+        recipe
     }
-};
+}
 
 export const fetchRecipes = (authUser) => {
     return (dispatch) => {
@@ -42,35 +41,35 @@ export const fetchRecipes = (authUser) => {
     }
 }
 
+export const fetchRecipeIfNeeded = (recipeId) => {
+    return (dispatch, getState) => {
+        if (getState().recipesState.items && getState().recipesState.items[recipeId] != null) {
+            dispatch(selectRecipe(getState().recipesState.items[recipeId]))
+        } else {
+            dispatch(fetchRecipe(getState().sessionState.authUser, recipeId));
+        }
+    }
+}
+
+const fetchRecipe = (authUser, recipeId) => {
+    return (dispatch) => {
+            authUser.getIdToken().then((idToken) => {
+                return fetch(`http://localhost:5000/api/v1/recipes/${recipeId}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json; charset=utf-8",
+                        "Authorization": `bearer ${idToken}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(json => dispatch(selectRecipe(json)));
+            });
+        }
+}
+
 export const addRecipe = (authUser, recipe) => {
     const { recipename, ingredients, instructions } = recipe;
     return (dispatch) => {
-        authUser.getIdToken().then((idToken) => {
-            return fetch("http://localhost:5000/api/v1/recipes", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8",
-                    "Authorization": `bearer ${idToken}`
-                },
-                body: JSON.stringify({
-                    uid: authUser.uid,
-                    recipename, 
-                    ingredients, 
-                    instructions
-                })
-            })
-                .then(response => response.json())
-                .then(json => dispatch(receiveRecipe(authUser.uid, json)));
-        });
-export const deleteRecipe = (authUser, recipeId) => {
-    return (dispatch) => {
-        authUser.getIdToken().then((idToken) => {
-            return fetch(`http://localhost:5000/api/v1/recipes/${recipeId}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8",
-                    "Authorization": `bearer ${idToken}`
-}   return (dispatch) => {
         authUser.getIdToken().then((idToken) => {
             return fetch("http://localhost:5000/api/v1/recipes", {
                 method: "POST",

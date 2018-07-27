@@ -13,6 +13,7 @@ import PasswordForgetPage from './PasswordForget';
 import HomePage from './Home';
 import AccountPage from './Account';
 import CreatePage from './Create';
+import ViewPage from './View';
 
 import * as routes from '../_constants/routes';
 
@@ -29,6 +30,7 @@ const App = () =>
       <Route exact path={routes.HOME} component={() => <HomePage />} />
       <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
       <Route exact path={routes.CREATE} component={() => <CreatePage />} />
+      <Route exact path={routes.VIEW} component={({match}) => <ViewPage id={match.params.id} />} />
     </div>
   </Router>
 
