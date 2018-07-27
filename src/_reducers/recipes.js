@@ -13,12 +13,15 @@ function recipesReducer(state = INITIAL_STATE, action) {
             });
         }
         case 'RECEIVE_RECIPE': {
+            // add to items list
+            const { recipe } = action;
+            const { recipeid } = recipe;
+            let items = state.items;
+            items[recipeid] = recipe;
+
             return Object.assign({}, state, {
                 isFetching: false,
-                items: [
-                    ...state.items,
-                    action.recipe
-                ]
+                items
             });
         }
         default: return state;

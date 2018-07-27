@@ -17,6 +17,14 @@ function receiveRecipes(userId, recipes) {
     }
 };
 
+function receiveRecipe(recipe) {
+    return {
+        type: "RECEIVE_RECIPES",
+        recipe,
+        receivedAt: Date.now()
+    }
+};
+
 export const selectRecipe = (recipe) => {
     return {
         type: "SELECT_RECIPE",
@@ -67,7 +75,7 @@ const fetchRecipe = (authUser, recipeId) => {
         }
 }
 
-export const addRecipe = (authUser, recipe) => {
+export const addRecipe = (authUser, recipe, history) => {
     const { recipename, ingredients, instructions } = recipe;
     return (dispatch) => {
         authUser.getIdToken().then((idToken) => {
@@ -85,7 +93,10 @@ export const addRecipe = (authUser, recipe) => {
                 })
             })
                 .then(response => response.json())
-                .then(json => dispatch(selectRecipe(json)));
+                .then(json => {
+                    dispatch(receiveRecipe(json));
+                    history.push(`/recipe/${json.recipeid}`);
+                });
         });
     };
 };

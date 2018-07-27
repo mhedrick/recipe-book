@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
+import { withRouter } from 'react-router';
 
 import withAuthorization from './withAuthorization';
 import {addRecipe} from '../_actions/recipes';
@@ -63,9 +64,9 @@ class CreatePage extends Component {
   handleSubmit(e){
     e.preventDefault();
     
-    const { dispatch, authUser } = this.props;
+    const { dispatch, authUser, history } = this.props;
 
-    dispatch(addRecipe(authUser, this.state));
+    dispatch(addRecipe(authUser, this.state, history));
   }
 
   render() {
@@ -115,5 +116,6 @@ const authCondition = (authUser) => !!authUser;
 
 export default compose(
   withAuthorization(authCondition),
+  withRouter,
   connect(mapStateToProps)
 )(CreatePage);
