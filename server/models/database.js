@@ -1,10 +1,7 @@
 const { Client } = require('pg');
 require('dotenv').load();
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:S4rum0k1@localhost:5432/recipe-book';
-const client = new Client({
-  connectionString: connectionString
-});
+const client = new Client();
 
 client.connect();
 const createTables = async function (){

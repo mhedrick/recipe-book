@@ -3,22 +3,24 @@ var admin = require("firebase-admin");
 const bodyParser = require('body-parser');
 const cors = require("cors");
 
+const app = express();
+const dotenv = require('dotenv');
+
+dotenv.load()
+if (app.get('env') === 'development') {
+    dotenv.config({ path: '.env.local' })
+}
+
+
 const router = require("./routes");
 
-require('dotenv').load();
-
-// if (process.env.NODE_ENV === 'development') {
-//     require('dotenv').config({ path: 'development.env' })
-//   }
-
 // todo env this
-const serviceAccount = require("../mhedrick-recipebook-firebase-adminsdk-mq9yi-4f0a2cd459.json");
+const serviceAccount = require(process.env.FIREBASE_SVC_ACCT);
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://mhedrick-recipebook.firebaseio.com"
+    databaseURL: process.env.FIREBASE_URL
 });
 
-const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
