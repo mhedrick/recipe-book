@@ -50,15 +50,13 @@ router.post('/api/v1/recipes/', async (req, res) => {
         res.send(rows[0])
     } catch (e) {
         res.status(500);
-        console.log(e.message);
-        console.log("--");
-        return res.send(JSON.stringify(e.message));
+        res.send(JSON.stringify(e.message));
     }
 });
 router.get('/api/v1/recipes/:id', async (req, res) => {
     const { id } = req.params;
     const { rows } = await db.query('SELECT * FROM recipes WHERE recipeid = $1', [id]);
-    res.send(rows)
+    res.send(rows[0])
 });
 router.put('/api/v1/recipes/:id', async (req, res) => {
     const { id } = req.params;
@@ -68,7 +66,7 @@ router.put('/api/v1/recipes/:id', async (req, res) => {
 });
 router.delete('/api/v1/recipes/:id', async (req, res) => {
     try {
-    const { id } = req.params;
+        const { id } = req.params;
         // only let people delete their own recipes
         const { rows } = await db.query('DELETE FROM recipes WHERE recipeid = $1 and userid = (SELECT userid FROM users WHERE firebaseuserid = $2)', [id, res.locals.user.uid]);
         res.status(200);
