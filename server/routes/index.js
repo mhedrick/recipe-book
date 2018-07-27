@@ -38,7 +38,11 @@ router.get('/api/v1/users/:id', async (req, res) => {
 router.get('/api/v1/users/:id/recipes', async (req, res) => {
     try {
         const { id } = req.params;
-        const { rows } = await db.query('SELECT r.* FROM users u, recipes r WHERE u.userid = r.userid and u.firebaseuserid = $1', [id]);
+        const { rows } = await db.query(
+            `SELECT r.* 
+            FROM users u, recipes r 
+            WHERE u.userid = r.userid and u.firebaseuserid = $1`
+            , [id]);
 
         let normalized = rows.reduce((acc, row) => {
             acc[row.recipeid] = row;
@@ -54,8 +58,13 @@ router.get('/api/v1/users/:id/recipes', async (req, res) => {
 // crud on recipes
 router.post('/api/v1/recipes/', async (req, res) => {
     const { uid, recipename, ingredients, instructions } = req.body;
+    const ingredientsJSON = JSON.stringify(ingredients);
     try {
-        let { rows } = await db.query('INSERT INTO recipes (recipeid, userid, recipename, instructions) VALUES (default, (SELECT userid FROM users WHERE firebaseuserid = $1), $2, $3) returning *', [uid, recipename, instructions]);
+        let { rows } = await db.query(
+            `INSERT INTO recipes (recipeid, userid, recipename, ingredients, instructions)
+            VALUES (default, (SELECT userid FROM users WHERE firebaseuserid = $1), $2, $3, $4) 
+            RETURNING *`
+            , [uid, recipename, ingredientsJSON, instructions]);
 
         res.send(rows[0])
     } catch (e) {
@@ -76,15 +85,16 @@ router.get('/api/v1/recipes/:id', async (req, res) => {
 router.put('/api/v1/recipes/:id', async (req, res) => {
     const { id } = req.params;
     const { uid, recipename, ingredients, instructions } = req.body;
-    console.log("updating recipe ", id);
-    console.log("for user ", uid);
+    const ingredientsJSON = JSON.stringify(ingredients);
     try {
         const { rows } = await db.query(
             `UPDATE recipes 
-            SET recipename=($2), instructions=($3) 
-            WHERE recipeid = $1 and userid = (SELECT userid FROM users WHERE firebaseuserid = $4)
+            SET recipename=($2), 
+            ingredients=$3,
+            instructions=($4) 
+            WHERE recipeid = $1 and userid = (SELECT userid FROM users WHERE firebaseuserid = $5)
             RETURNING *`,
-            [id, recipename, instructions, uid]);
+            [id, recipename, ingredientsJSON, instructions, uid]);
 
         res.send(rows[0])
     } catch (e) {

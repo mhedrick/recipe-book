@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-const BLANK_INGREDIENT = 
+const BLANK_INGREDIENT =
 {
-  measure: "",
-  name: "",
-  instruction: ""
+    measure: "",
+    name: "",
+    instruction: ""
 };
 
 class RecipeForm extends Component {
@@ -12,7 +12,7 @@ class RecipeForm extends Component {
         super(props);
 
         let { recipename, ingredients, instructions, recipeid } = this.props.recipe;
-        if(!ingredients || ingredients.length === 0) {
+        if (!ingredients || ingredients.length === 0) {
             ingredients = [
                 BLANK_INGREDIENT
             ]
@@ -66,7 +66,7 @@ class RecipeForm extends Component {
             ingredients
         });
     }
-    handleSubmit(e){
+    handleSubmit(e) {
         e.preventDefault();
         const { onHandleSubmit } = this.props;
 
@@ -85,23 +85,44 @@ class RecipeForm extends Component {
                 <div>
                     <label>
                         <span>Ingredients</span>
+                        <div className="row">
+                            <div className="column">Amount </div>
+                            <div className="column"> Ingredient</div>
+                            <div className="column">Instruction (optional)</div>
+                            <div className="column"> </div>
+                        </div>
                         {ingredients.map((ingredient, i) => (
                             <div className="row" key={i}>
                                 <div className="column">
-                                    <input type="text" name="measure" value={ingredient.measure} onChange={this.handleIngredientChange.bind(this, ingredient, i)} />
+                                    <input 
+                                    type="text" 
+                                    name="measure" 
+                                    placeholder="3 cups"
+                                    value={ingredient.measure} 
+                                    onChange={this.handleIngredientChange.bind(this, ingredient, i)} />
                                 </div>
                                 <div className="column">
-                                    <input type="text" name="name" value={ingredient.name} onChange={this.handleIngredientChange.bind(this, ingredient, i)} />
+                                    <input 
+                                    type="text" 
+                                    name="name" 
+                                    placeholder="banana"
+                                    value={ingredient.name} 
+                                    onChange={this.handleIngredientChange.bind(this, ingredient, i)} />
                                 </div>
                                 <div className="column">
-                                    <input type="text" name="instruction" value={ingredient.instruction} onChange={this.handleIngredientChange.bind(this, ingredient, i)} />
+                                    <input 
+                                    type="text" 
+                                    name="instruction" 
+                                    placeholder="mashed"
+                                    value={ingredient.instruction} 
+                                    onChange={this.handleIngredientChange.bind(this, ingredient, i)} />
                                 </div>
                                 <div className="column">
                                     <input type="button" value="Remove" onClick={this.removeIngredient.bind(this)} disabled={this.state.ingredients.length === 1} />
                                 </div>
                             </div>
                         ))}
-                        <input type="button" value="Add" onClick={this.addIngredient.bind(this)} />
+                        <input type="button" value="Add Another Ingredient" onClick={this.addIngredient.bind(this)} />
                     </label>
                 </div>
                 <div>

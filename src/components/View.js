@@ -34,7 +34,7 @@ class ViewPage extends Component {
                 <h4>Ingredients</h4>
                 <ul>
                     {ingredients && ingredients.map((ingredient, i) => 
-                        <li key={i}>{ingredient.measurement} <b>{ingredient.name}</b> <i>{ingredient.instruction}</i></li>
+                        <li key={i}>{ingredient.measure} <b>{ingredient.name}</b> <i>{ingredient.instruction}</i></li>
                     )}
                 </ul>
                 <h4>Instructions</h4>
