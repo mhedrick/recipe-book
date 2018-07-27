@@ -25,28 +25,38 @@ router.get('/api/health', async (req, res) => {
 });
 
 router.get('/api/v1/users/:id', async (req, res) => {
-    const { id } = req.params;
-    const { rows } = await db.query('SELECT * FROM users WHERE userid = $1', [id]);
-    res.send(rows[0])
+    try {
+        const { id } = req.params;
+        const { rows } = await db.query('SELECT username FROM users WHERE firebaseuserid = $1', [id]);
+        res.send(rows[0])
+    } catch (e) {
+        res.status(500);
+        res.send(JSON.stringify(e.message));
+    }
 });
 // get a list of user's recipes
 router.get('/api/v1/users/:id/recipes', async (req, res) => {
-    const { id } = req.params;
-    const { rows } = await db.query('SELECT r.* FROM users u, recipes r WHERE u.userid = r.userid and u.firebaseuserid = $1', [id]);
-    
-    let normalized = rows.reduce((acc, row) => {
-        acc[row.recipeid] = row;
-        return acc;
-      }, {});
-    
-    res.send(JSON.stringify(normalized));
+    try {
+        const { id } = req.params;
+        const { rows } = await db.query('SELECT r.* FROM users u, recipes r WHERE u.userid = r.userid and u.firebaseuserid = $1', [id]);
+
+        let normalized = rows.reduce((acc, row) => {
+            acc[row.recipeid] = row;
+            return acc;
+        }, {});
+
+        res.send(JSON.stringify(normalized));
+    } catch (e) {
+        res.status(500);
+        res.send(JSON.stringify(e.message));
+    }
 });
 // crud on recipes
 router.post('/api/v1/recipes/', async (req, res) => {
     const { uid, recipename, ingredients, instructions } = req.body;
     try {
         let { rows } = await db.query('INSERT INTO recipes (recipeid, userid, recipename, instructions) VALUES (default, (SELECT userid FROM users WHERE firebaseuserid = $1), $2, $3) returning *', [uid, recipename, instructions]);
-        
+
         res.send(rows[0])
     } catch (e) {
         res.status(500);
@@ -54,9 +64,14 @@ router.post('/api/v1/recipes/', async (req, res) => {
     }
 });
 router.get('/api/v1/recipes/:id', async (req, res) => {
-    const { id } = req.params;
-    const { rows } = await db.query('SELECT * FROM recipes WHERE recipeid = $1', [id]);
-    res.send(rows[0])
+    try {
+        const { id } = req.params;
+        const { rows } = await db.query('SELECT * FROM recipes WHERE recipeid = $1', [id]);
+        res.send(rows[0])
+    } catch (e) {
+        res.status(500);
+        res.send(JSON.stringify(e.message));
+    }
 });
 router.put('/api/v1/recipes/:id', async (req, res) => {
     const { id } = req.params;
@@ -68,9 +83,9 @@ router.put('/api/v1/recipes/:id', async (req, res) => {
             `UPDATE recipes 
             SET recipename=($2), instructions=($3) 
             WHERE recipeid = $1 and userid = (SELECT userid FROM users WHERE firebaseuserid = $4)
-            RETURNING *`, 
+            RETURNING *`,
             [id, recipename, instructions, uid]);
-      
+
         res.send(rows[0])
     } catch (e) {
         res.status(500);
@@ -83,8 +98,8 @@ router.delete('/api/v1/recipes/:id', async (req, res) => {
         // only let people delete their own recipes
         const { rows } = await db.query('DELETE FROM recipes WHERE recipeid = $1 and userid = (SELECT userid FROM users WHERE firebaseuserid = $2)', [id, res.locals.user.uid]);
         res.status(200);
-        res.send(JSON.stringify({"success": true}))
-    } catch (e){
+        res.send(JSON.stringify({ "success": true }))
+    } catch (e) {
         res.status(500);
         res.send(JSON.stringify(e.message));
     }

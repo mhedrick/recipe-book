@@ -4,14 +4,10 @@ I used [this guide](https://www.robinwieruch.de/complete-firebase-authentication
 
 ## still left to do
 ### routes & implementation
-* create recipe
-* view recipe
-* edit recipe
-* delete recipe
+* not happy paths (bad id in url, etc)
 * tests
 
 ### api
-* error handling
 * tests
 * env variables for keys
 
