@@ -86,11 +86,19 @@ class RecipeForm extends Component {
                     <label>
                         <span>Ingredients</span>
                         {ingredients.map((ingredient, i) => (
-                            <div key={i}>
-                                <input type="text" name="measure" value={ingredient.measure} onChange={this.handleIngredientChange.bind(this, ingredient, i)} />
-                                <input type="text" name="name" value={ingredient.name} onChange={this.handleIngredientChange.bind(this, ingredient, i)} />
-                                <input type="text" name="instruction" value={ingredient.instruction} onChange={this.handleIngredientChange.bind(this, ingredient, i)} />
-                                <input type="button" value="Remove" onClick={this.removeIngredient.bind(this)} disabled={this.state.ingredients.length === 1} />
+                            <div className="row" key={i}>
+                                <div className="column">
+                                    <input type="text" name="measure" value={ingredient.measure} onChange={this.handleIngredientChange.bind(this, ingredient, i)} />
+                                </div>
+                                <div className="column">
+                                    <input type="text" name="name" value={ingredient.name} onChange={this.handleIngredientChange.bind(this, ingredient, i)} />
+                                </div>
+                                <div className="column">
+                                    <input type="text" name="instruction" value={ingredient.instruction} onChange={this.handleIngredientChange.bind(this, ingredient, i)} />
+                                </div>
+                                <div className="column">
+                                    <input type="button" value="Remove" onClick={this.removeIngredient.bind(this)} disabled={this.state.ingredients.length === 1} />
+                                </div>
                             </div>
                         ))}
                         <input type="button" value="Add" onClick={this.addIngredient.bind(this)} />

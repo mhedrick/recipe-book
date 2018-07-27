@@ -1,32 +1,44 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import SignOutButton from './SignOut';
 import * as routes from '../_constants/routes';
 
+
+import { auth } from '../firebase';
+
 const Navigation = ({ authUser }) =>
-  <div>
-    { authUser
-        ? <NavigationAuth />
-        : <NavigationNonAuth />
-    }
-  </div>
+  <nav className="navigation">
+    <div className="container">
+      { authUser
+          ? <NavigationAuth />
+          : <NavigationNonAuth />
+      }
+      </div>
+  </nav>
 
 const NavigationAuth = () =>
-  <ul>
-    <li><Link to={routes.LANDING}>Landing</Link></li>
-    <li><Link to={routes.HOME}>Home</Link></li>
-    <li><Link to={routes.ACCOUNT}>Account</Link></li>
-    <li><Link to={routes.CREATE}>Create</Link></li>
-    <li><SignOutButton /></li>
+<Fragment>
+  <ul className="navigation-list">
+    <li className="navigation-item"><Link to={routes.LANDING} className="navigation-link">Home</Link></li>
+    <li className="navigation-item"><Link to={routes.HOME} className="navigation-link">Recipes</Link></li>
+    <li className="navigation-item"><Link to={routes.ACCOUNT} className="navigation-link">Account</Link></li>
   </ul>
+  <ul className="navigation-list float-right">
+    <li className="navigation-item"><a className="navigation-link" onClick={auth.doSignOut}>Sign Out</a></li>
+  </ul>
+</Fragment>
 
 const NavigationNonAuth = () =>
-  <ul>
-    <li><Link to={routes.LANDING}>Landing</Link></li>
-    <li><Link to={routes.SIGN_IN}>Sign In</Link></li>
+
+<Fragment>
+  <ul className="navigation-list">
+    <li className="navigation-item"><Link to={routes.LANDING} className="navigation-link">Home</Link></li>
   </ul>
+  <ul className="navigation-list float-right">
+    <li className="navigation-item"><Link to={routes.SIGN_IN} className="navigation-link">Sign In</Link></li>
+  </ul>
+</Fragment>
 
 const mapStateToProps = (state) => ({
   authUser: state.sessionState.authUser,

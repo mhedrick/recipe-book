@@ -4,7 +4,7 @@ import { compose } from 'recompose';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom'
 
-import { fetchRecipeIfNeeded } from '../_actions/recipes';
+import { fetchRecipeIfNeeded, deleteRecipe } from '../_actions/recipes';
 import withAuthorization from './withAuthorization';
 
 
@@ -14,23 +14,30 @@ class ViewPage extends Component {
         const { match, dispatch } = this.props;
         dispatch(fetchRecipeIfNeeded(match.params.id));
     }
-    onHandleEditClick() {
-        // new page or flip inputs??
-        // leaning towards new page as create/edit component
+    onHandleDeleteClick(id){
+      const { dispatch, authUser } = this.props;
+  
+      dispatch(deleteRecipe(authUser, id));
     }
     render() {
         const { recipename, ingredients, instructions, recipeid } = this.props.recipe;
         return (
             <div>
-                <h1>{recipename}</h1>
-                  <Link to={`/recipe/${recipeid}/edit`}>Edit</Link>
-                <h2>Ingredients</h2>
+                <Link to={`/home`}>{"<"} Go Back</Link>
+                <h2>
+                    {recipename}{' '}
+                    <small style={{ fontSize: '2.2rem'}}><Link to={`/recipe/${recipeid}/edit`}>edit</Link>
+                  {" | "}
+                  <a href="javascript:void(0)" onClick={this.onHandleDeleteClick.bind(this, recipeid)}>delete</a></small>
+                </h2>
+                  
+                <h4>Ingredients</h4>
                 <ul>
                     {ingredients && ingredients.map((ingredient, i) => 
                         <li key={i}>{ingredient.measurement} <b>{ingredient.name}</b> <i>{ingredient.instruction}</i></li>
                     )}
                 </ul>
-                <h2>Instructions</h2>
+                <h4>Instructions</h4>
                 <p>{instructions /* will be markdown */}</p>
             </div>);
     }

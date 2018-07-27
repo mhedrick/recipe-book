@@ -29,7 +29,7 @@ class CreatePage extends Component {
   render() {
     return (
       <Fragment>
-        <h1>Create Recipe</h1>
+        <h3>Create Recipe</h3>
         <RecipeForm recipe={this.state} onHandleSubmit={this.handleSubmit.bind(this)} {...this.props} />
       </Fragment>);
   }

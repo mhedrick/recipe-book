@@ -6,6 +6,9 @@ import {
 
 import withAuthentication from './withAuthentication';
 
+import 'milligram';
+import './App.css';
+
 import Navigation from './Navigation';
 import LandingPage from './Landing';
 import SignInPage from './SignIn';
@@ -20,19 +23,18 @@ import * as routes from '../_constants/routes';
 
 const App = () =>
   <Router>
-    <div>
+    <div id="app">
       <Navigation />
-
-      <hr/>
-
-      <Route exact path={routes.LANDING} component={() => <LandingPage />} />
-      <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
-      <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage />} />
-      <Route exact path={routes.HOME} component={() => <HomePage />} />
-      <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
-      <Route exact path={routes.CREATE} component={() => <CreatePage />} />
-      <Route exact path={routes.VIEW} component={({match}) => <ViewPage id={match.params.id} />} />
-      <Route exact path={routes.EDIT} component={() => <EditPage />} />
+      <section className="container">
+        <Route exact path={routes.LANDING} component={() => <LandingPage />} />
+        <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
+        <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage />} />
+        <Route exact path={routes.HOME} component={() => <HomePage />} />
+        <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
+        <Route exact path={routes.CREATE} component={() => <CreatePage />} />
+        <Route exact path={routes.VIEW} component={({match}) => <ViewPage id={match.params.id} />} />
+        <Route exact path={routes.EDIT} component={() => <EditPage />} />
+      </section>
     </div>
   </Router>
 

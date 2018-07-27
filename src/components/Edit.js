@@ -21,7 +21,7 @@ class EditPage extends Component {
     render() {
         return (
             <Fragment>
-                <h1>Edit Recipe</h1>
+                <h2>Edit Recipe</h2>
                 { this.props.recipe.recipeid && <RecipeForm onHandleSubmit={this.handleSubmit.bind(this)} {...this.props} /> }
             </Fragment>);
     }

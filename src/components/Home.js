@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { fetchRecipes, deleteRecipe, selectRecipe } from '../_actions/recipes';
+import { fetchRecipes, selectRecipe } from '../_actions/recipes';
 import { Link } from 'react-router-dom'
 
 import withAuthorization from './withAuthorization';
@@ -12,11 +12,6 @@ class HomePage extends Component {
 
     dispatch(fetchRecipes(authUser));
   }
-  onHandleDeleteClick(id){
-    const { dispatch, authUser } = this.props;
-
-    dispatch(deleteRecipe(authUser, id));
-  }
   onHandleSelectClick(recipe){
     const { dispatch } = this.props;
 
@@ -25,14 +20,13 @@ class HomePage extends Component {
   render() {
     const { recipes } = this.props;
     return recipes && (<div>
-        <h1>Home Page</h1>
+        <h2>Your recipes</h2>
         {recipes && Object.keys(recipes).length > 0 && (
           <ul>
-            { Object.keys(recipes).map((recipeId) => {
+            { Object.keys(recipes).map((recipeid) => {
               return (
-                <li key={recipeId}>
-                  <Link to={`/recipe/${recipeId}`}>{recipes[recipeId].recipename}</Link>
-                  <button type="button" onClick={this.onHandleDeleteClick.bind(this, recipeId)} >X</button>
+                <li key={recipeid}>
+                  <Link to={`/recipe/${recipeid}`}>{recipes[recipeid].recipename}</Link>
                 </li>)
             })}
           </ul>)}
