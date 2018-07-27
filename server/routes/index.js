@@ -34,9 +34,10 @@ router.get('/api/v1/users/:id/recipes', async (req, res) => {
     const { id } = req.params;
     const { rows } = await db.query('SELECT r.* FROM users u, recipes r WHERE u.userid = r.userid and u.firebaseuserid = $1', [id]);
     
-    let normalized = rows.map((row) => ({
-        [row.recipeid]: row
-    }));
+    let normalized = rows.reduce((acc, row) => {
+        acc[row.recipeid] = row;
+        return acc;
+      }, {});
     
     res.send(JSON.stringify(normalized));
 });
