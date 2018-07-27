@@ -14,6 +14,7 @@ import HomePage from './Home';
 import AccountPage from './Account';
 import CreatePage from './Create';
 import ViewPage from './View';
+import EditPage from './Edit';
 
 import * as routes from '../_constants/routes';
 
@@ -31,6 +32,7 @@ const App = () =>
       <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
       <Route exact path={routes.CREATE} component={() => <CreatePage />} />
       <Route exact path={routes.VIEW} component={({match}) => <ViewPage id={match.params.id} />} />
+      <Route exact path={routes.EDIT} component={() => <EditPage />} />
     </div>
   </Router>
 

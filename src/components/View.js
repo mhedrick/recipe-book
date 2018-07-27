@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom'
 
 import { fetchRecipeIfNeeded } from '../_actions/recipes';
 import withAuthorization from './withAuthorization';
@@ -18,15 +19,16 @@ class ViewPage extends Component {
         // leaning towards new page as create/edit component
     }
     render() {
-        const { recipename, ingredients, instructions } = this.props.recipe;
+        const { recipename, ingredients, instructions, recipeid } = this.props.recipe;
         return (
             <div>
                 <h1>{recipename}</h1>
+                  <Link to={`/recipe/${recipeid}/edit`}>Edit</Link>
                 <h2>Ingredients</h2>
                 <ul>
-                    {ingredients && ingredients.map((ingredient, i) => {
+                    {ingredients && ingredients.map((ingredient, i) => 
                         <li key={i}>{ingredient.measurement} <b>{ingredient.name}</b> <i>{ingredient.instruction}</i></li>
-                    })}
+                    )}
                 </ul>
                 <h2>Instructions</h2>
                 <p>{instructions /* will be markdown */}</p>
@@ -35,7 +37,7 @@ class ViewPage extends Component {
 }
 
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
     authUser: state.sessionState.authUser,
     recipe: state.selectedRecipe
 });

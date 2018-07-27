@@ -24,10 +24,9 @@ class HomePage extends Component {
   }
   render() {
     const { recipes } = this.props;
-    return (
-      <div>
+    return recipes && (<div>
         <h1>Home Page</h1>
-        {Object.keys(recipes).length > 0 && (
+        {recipes && Object.keys(recipes).length > 0 && (
           <ul>
             { Object.keys(recipes).map((recipeId) => {
               return (

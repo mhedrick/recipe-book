@@ -45,8 +45,7 @@ router.get('/api/v1/users/:id/recipes', async (req, res) => {
 router.post('/api/v1/recipes/', async (req, res) => {
     const { uid, recipename, ingredients, instructions } = req.body;
     try {
-        console.log("creating recipe", recipename, instructions);
-        let { rows } = await db.query('INSERT INTO recipes (recipeid, userid, recipename, instructions) values (default, (SELECT userid FROM users WHERE firebaseuserid = $1), $2, $3) returning *', [uid, recipename, instructions]);
+        let { rows } = await db.query('INSERT INTO recipes (recipeid, userid, recipename, instructions) VALUES (default, (SELECT userid FROM users WHERE firebaseuserid = $1), $2, $3) returning *', [uid, recipename, instructions]);
         
         res.send(rows[0])
     } catch (e) {
@@ -61,9 +60,22 @@ router.get('/api/v1/recipes/:id', async (req, res) => {
 });
 router.put('/api/v1/recipes/:id', async (req, res) => {
     const { id } = req.params;
-    const { recipename, ingredients, instructions } = req.body;
-    const { rows } = await db.query('UPDATE recipes set recipename=($2), ingredients=($3), instructions=($4)  where recipeid = $1 RETURNING *', [id, recipename, ingredients, instructions]);
-    res.send(rows[0])
+    const { uid, recipename, ingredients, instructions } = req.body;
+    console.log("updating recipe ", id);
+    console.log("for user ", uid);
+    try {
+        const { rows } = await db.query(
+            `UPDATE recipes 
+            SET recipename=($2), instructions=($3) 
+            WHERE recipeid = $1 and userid = (SELECT userid FROM users WHERE firebaseuserid = $4)
+            RETURNING *`, 
+            [id, recipename, instructions, uid]);
+      
+        res.send(rows[0])
+    } catch (e) {
+        res.status(500);
+        res.send(JSON.stringify(e.message));
+    }
 });
 router.delete('/api/v1/recipes/:id', async (req, res) => {
     try {

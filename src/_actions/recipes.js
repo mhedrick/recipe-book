@@ -101,6 +101,33 @@ export const addRecipe = (authUser, recipe, history) => {
     };
 };
 
+
+export const updateRecipe = (authUser, recipe, history) => {
+    const { recipeid, recipename, ingredients, instructions } = recipe;
+    return (dispatch) => {
+        authUser.getIdToken().then((idToken) => {
+            return fetch(`http://localhost:5000/api/v1/recipes/${recipeid}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "Authorization": `bearer ${idToken}`
+                },
+                body: JSON.stringify({
+                    uid: authUser.uid,
+                    recipename,
+                    ingredients,
+                    instructions
+                })
+            })
+                .then(response => response.json())
+                .then(json => {
+                    dispatch(receiveRecipe(json));
+                    history.push(`/recipe/${json.recipeid}`);
+                });
+        });
+    };
+};
+
 export const deleteRecipe = (authUser, recipeId) => {
     return (dispatch) => {
         authUser.getIdToken().then((idToken) => {
