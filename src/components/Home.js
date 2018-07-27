@@ -11,6 +11,11 @@ class HomePage extends Component {
 
     dispatch(fetchRecipes(authUser));
   }
+  onHandleDeleteClick(id){
+    const { dispatch, authUser } = this.props;
+
+    dispatch(deleteRecipe(authUser, id));
+  }
   render() {
     const { recipes } = this.props;
     return (
@@ -18,11 +23,12 @@ class HomePage extends Component {
         <h1>Home Page</h1>
         {recipes.length > 0 && (
           <ul>
-            {recipes.map((id) => {
-              const recipeId = Object.keys(id)[0];
+            {recipes.map((recipeIds) => {
+              const recipeId = Object.keys(recipeIds)[0];
               return (
                 <li key={recipeId}>
-                  <a href={`/recipe/${recipeId}`}>{id[recipeId].recipename}</a>
+                  <Link to={`/recipe/${recipeId}`}>{recipeIds[recipeId].recipename}</Link>
+                  <button type="button" onClick={this.onHandleDeleteClick.bind(this, recipeId)} >X</button>
                 </li>)
             })}
           </ul>)}

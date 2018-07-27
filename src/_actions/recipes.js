@@ -62,5 +62,46 @@ export const addRecipe = (authUser, recipe) => {
                 .then(response => response.json())
                 .then(json => dispatch(receiveRecipe(authUser.uid, json)));
         });
-    }
-}
+export const deleteRecipe = (authUser, recipeId) => {
+    return (dispatch) => {
+        authUser.getIdToken().then((idToken) => {
+            return fetch(`http://localhost:5000/api/v1/recipes/${recipeId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "Authorization": `bearer ${idToken}`
+}   return (dispatch) => {
+        authUser.getIdToken().then((idToken) => {
+            return fetch("http://localhost:5000/api/v1/recipes", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "Authorization": `bearer ${idToken}`
+                },
+                body: JSON.stringify({
+                    uid: authUser.uid,
+                    recipename,
+                    ingredients,
+                    instructions
+                })
+            })
+                .then(response => response.json())
+                .then(json => dispatch(selectRecipe(json)));
+        });
+    };
+};
+
+export const deleteRecipe = (authUser, recipeId) => {
+    return (dispatch) => {
+        authUser.getIdToken().then((idToken) => {
+            return fetch(`http://localhost:5000/api/v1/recipes/${recipeId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "Authorization": `bearer ${idToken}`
+                }
+            })
+                .then(response => response.json());
+        });
+    };
+};
