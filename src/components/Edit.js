@@ -7,6 +7,7 @@ import withAuthorization from './withAuthorization';
 import { updateRecipe, fetchRecipeIfNeeded } from '../_actions/recipes';
 import RecipeForm from './RecipeForm';
 
+
 class EditPage extends Component {
     componentDidMount() {
         const { match, dispatch } = this.props;

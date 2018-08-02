@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router';
@@ -14,13 +15,18 @@ class ViewPage extends Component {
         const { match, dispatch } = this.props;
         dispatch(fetchRecipeIfNeeded(match.params.id));
     }
-    onHandleDeleteClick(id){
-      const { dispatch, authUser } = this.props;
+    componentWillUpdate({ recipe }){
+        let frag = document.createRange().createContextualFragment(recipe.instructions);
+        let appendTarget = findDOMNode(this.refs.instructions); 
+        appendTarget.appendChild(frag);
+    }
+    onHandleDeleteClick = () => {
+      const { dispatch, authUser, recipe } = this.props;
   
-      dispatch(deleteRecipe(authUser, id));
+      dispatch(deleteRecipe(authUser, recipe.recipeid));
     }
     render() {
-        const { recipename, ingredients, instructions, recipeid } = this.props.recipe;
+        const { recipename, ingredients, recipeid } = this.props.recipe;
         return (
             <div>
                 <Link to={`/home`}>{"<"} Go Back</Link>
@@ -28,7 +34,7 @@ class ViewPage extends Component {
                     {recipename}{' '}
                     <small style={{ fontSize: '2.2rem'}}><Link to={`/recipe/${recipeid}/edit`}>edit</Link>
                   {" | "}
-                  <a href="javascript:void(0)" onClick={this.onHandleDeleteClick.bind(this, recipeid)}>delete</a></small>
+                  <a href="javascript:void(0)" onClick={this.onHandleDeleteClick}>delete</a></small>
                 </h2>
                   
                 <h4>Ingredients</h4>
@@ -38,7 +44,7 @@ class ViewPage extends Component {
                     )}
                 </ul>
                 <h4>Instructions</h4>
-                <p>{instructions /* will be markdown */}</p>
+                <p ref="instructions"></p>
             </div>);
     }
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import InstructionsEditor from './InstructionsEditor';
 
 const BLANK_INGREDIENT =
 {
@@ -26,7 +27,7 @@ class RecipeForm extends Component {
     }
 
 
-    handleInputChange(event) {
+    handleInputChange = (event) => {
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -66,7 +67,10 @@ class RecipeForm extends Component {
             ingredients
         });
     }
-    handleSubmit(e) {
+    onUpdateInstructions(instructions){
+        this.setState({instructions});
+    }
+    handleSubmit = (e) => {
         e.preventDefault();
         const { onHandleSubmit } = this.props;
 
@@ -75,11 +79,11 @@ class RecipeForm extends Component {
     render() {
         let { recipename, ingredients, instructions } = this.state;
         return (
-            <form onSubmit={this.handleSubmit.bind(this)} >
+            <form onSubmit={this.handleSubmit} >
                 <div>
                     <label htmlFor="recipename">
                         <span>Name</span>
-                        <input type="text" name="recipename" value={recipename} onChange={this.handleInputChange.bind(this)} />
+                        <input type="text" name="recipename" value={recipename} onChange={this.handleInputChange} />
                     </label>
                 </div>
                 <div>
@@ -126,10 +130,8 @@ class RecipeForm extends Component {
                     </label>
                 </div>
                 <div>
-                    <label htmlFor="ingredients">
-                        <span>Instructions</span>
-                        <textarea name="instructions" value={instructions} onChange={this.handleInputChange.bind(this)} />
-                    </label>
+                    <label htmlFor="instructions"><span>Instructions</span></label>
+                    <InstructionsEditor value={instructions} handleOnChange={this.onUpdateInstructions.bind(this)} />
                 </div>
                 <div>
                     <input type="submit" value="Save" />
