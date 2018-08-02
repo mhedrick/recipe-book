@@ -6,14 +6,14 @@ I used [this guide](https://www.robinwieruch.de/complete-firebase-authentication
 ### routes & implementation
 * not happy paths (bad id in url, etc)
 * tests
+* reorganize the react?
+* add in prep and cook times?
 
 ### api
 * tests
-* env variables for keys
 
 ### misc
 * deployment
-* make it not uggo
 
 ### nice to haves
 * hal/hateoas
