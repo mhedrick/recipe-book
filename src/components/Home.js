@@ -19,7 +19,8 @@ class HomePage extends Component {
   }
   render() {
     const { recipes } = this.props;
-    return recipes && (<div>
+    return (
+    <div>
         <h2>Your recipes</h2>
         {recipes && Object.keys(recipes).length > 0 && (
           <ul>
@@ -30,7 +31,7 @@ class HomePage extends Component {
                 </li>)
             })}
           </ul>)}
-        {recipes.length === 0 && <p>No recipes.</p>}
+        {recipes && recipes.length === 0 && <p>No recipes.</p>}
       </div>)
   }
 }
