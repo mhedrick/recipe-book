@@ -4,6 +4,9 @@ import { Editor } from 'slate-react';
 import Html from 'slate-html-serializer';
 
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+
 // Refactor block tags into a dictionary for cleanliness.
 const BLOCK_TAGS = {
     p: 'paragraph',
@@ -12,8 +15,7 @@ const BLOCK_TAGS = {
     ul: 'bulleted-list',
     ol: 'numbered-list',
     li: 'list-item',
-    h3: 'heading-one',
-    h4: 'heading-two'
+    h3: 'heading-one'
 };
 // Add a dictionary of mark tags.
 const MARK_TAGS = {
@@ -42,20 +44,19 @@ const RULES = [
             const { object, type, attributes } = obj;
             if (object === 'block') {
                 switch (type) {
-                    case BLOCK_TAGS.p:
-                        return <p {...attributes}>{children}</p>
                     case BLOCK_TAGS.blockquote:
                         return <blockquote {...attributes}>{children}</blockquote>
                     case BLOCK_TAGS.ul:
                         return <ul {...attributes}>{children}</ul>
                     case BLOCK_TAGS.h3:
                         return <h3 {...attributes}>{children}</h3>
-                    case BLOCK_TAGS.h4:
-                        return <h4 {...attributes}>{children}</h4>
                     case BLOCK_TAGS.li:
                         return <li {...attributes}>{children}</li>
                     case BLOCK_TAGS.ol:
                         return <ol {...attributes}>{children}</ol>
+                    case BLOCK_TAGS.p:
+                    default:
+                        return <p {...attributes}>{children}</p>
                 }
             }
         },
@@ -81,6 +82,8 @@ const RULES = [
                         return <i>{children}</i>
                     case 'underline':
                         return <u>{children}</u>
+                    default:
+                        return <span>{children}</span>
                 }
             }
         },
@@ -170,20 +173,19 @@ class InstructionsEditor extends Component {
         const { attributes, children, node } = props
 
         switch (node.type) {
-            case BLOCK_TAGS.p:
-                return <p {...attributes}>{children}</p>
             case BLOCK_TAGS.blockquote:
                 return <blockquote {...attributes}>{children}</blockquote>
             case BLOCK_TAGS.ul:
                 return <ul {...attributes}>{children}</ul>
             case BLOCK_TAGS.h3:
                 return <h3 {...attributes}>{children}</h3>
-            case BLOCK_TAGS.h4:
-                return <h4 {...attributes}>{children}</h4>
             case BLOCK_TAGS.li:
                 return <li {...attributes}>{children}</li>
             case BLOCK_TAGS.ol:
                 return <ol {...attributes}>{children}</ol>
+            case BLOCK_TAGS.p:
+            default:
+                return <p {...attributes}>{children}</p>
         }
     }
 
@@ -196,6 +198,8 @@ class InstructionsEditor extends Component {
                 return <i {...props}>{children}</i>
             case MARK_TAGS.strong.u:
                 return <u {...props}>{children}</u>
+            default:
+                return <span {...props}>{children}</span>
         }
     }
 
@@ -203,15 +207,16 @@ class InstructionsEditor extends Component {
     render() {
         return (
             <Fragment>
-                <div>
+                <div className="toolbar">
                     {/* turn these into objects and use tags*/}
-                    <button type="button" onPointerDown={(e) => this.onClickMark(e, 'bold')}>b</button>
-                    <button type="button" onPointerDown={(e) => this.onClickMark(e, 'italic')}>i</button>
-                    <button type="button" onPointerDown={(e) => this.onClickMark(e, 'underline')}>u</button>
-                    <button type="button" onPointerDown={(e) => this.onClickBlock(e, 'bulleted-list')}>ul</button>
-                    <button type="button" onPointerDown={(e) => this.onClickBlock(e, 'numbered-list')}>ol</button>
+                    <button type="button" onPointerDown={(e) => this.onClickMark(e, 'bold')}><FontAwesomeIcon icon="bold" /></button>
+                    <button type="button" onPointerDown={(e) => this.onClickMark(e, 'italic')}><FontAwesomeIcon icon="italic" /></button>
+                    <button type="button" onPointerDown={(e) => this.onClickMark(e, 'underline')}><FontAwesomeIcon icon="underline" /></button>
+                    <button type="button" onPointerDown={(e) => this.onClickBlock(e, 'bulleted-list')}><FontAwesomeIcon icon="list-ul" /></button>
+                    <button type="button" onPointerDown={(e) => this.onClickBlock(e, 'numbered-list')}><FontAwesomeIcon icon="list-ol" /></button>
+                    <button type="button" onPointerDown={(e) => this.onClickBlock(e, 'heading-one')}><FontAwesomeIcon icon="heading" /></button>
                 </div>
-                <Editor value={this.state.value} onChange={this.onChange} renderMark={this.renderMark} renderNode={this.renderNode} />
+                <Editor className="editor" value={this.state.value} onChange={this.onChange} renderMark={this.renderMark} renderNode={this.renderNode} />
             </Fragment>);
     }
 }

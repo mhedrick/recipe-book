@@ -65,3 +65,30 @@
 #app > section.container {
   margin-top: 6.5rem;
 }
+
+/* for the rte */
+.toolbar {
+  background-color: #f4f5f6;
+}
+.toolbar button {
+  background-color: transparent;
+  border-radius: 0;
+  color: #9b4dca;
+  border: 0;  
+  padding: 1.5rem;
+  line-height: 1;
+  height: auto;
+  margin: 0;
+  text-decoration: none;
+}
+.toolbar button:hover {
+  background-color: #b9a1c9;
+  color: #9b4dca;
+  border: 0;  
+  border-radius: 0;
+}
+.editor {
+  border: 1px solid #eee;
+  padding: 1rem;
+  min-height: 375px;
+}

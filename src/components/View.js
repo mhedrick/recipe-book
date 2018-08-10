@@ -34,7 +34,7 @@ class ViewPage extends Component {
                     {recipename}{' '}
                     <small style={{ fontSize: '2.2rem'}}><Link to={`/recipe/${recipeid}/edit`}>edit</Link>
                   {" | "}
-                  <a href="javascript:void(0)" onClick={this.onHandleDeleteClick}>delete</a></small>
+                  <a onClick={this.onHandleDeleteClick}>delete</a></small>
                 </h2>
                   
                 <h4>Ingredients</h4>

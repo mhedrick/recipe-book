@@ -8,6 +8,7 @@ import withAuthentication from './withAuthentication';
 
 import 'milligram';
 import './App.css';
+import '../utils/fontawesome';
 
 import Navigation from './Navigation';
 import LandingPage from './Landing';
