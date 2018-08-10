@@ -5,8 +5,8 @@ import { compose } from 'recompose';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom'
 
-import { fetchRecipeIfNeeded, deleteRecipe } from '../_actions/recipes';
-import withAuthorization from './withAuthorization';
+import { fetchRecipeIfNeeded, deleteRecipe } from '../../_actions/recipes';
+import withAuthorization from '../../hoc/withAuthorization';
 
 
 class ViewPage extends Component {

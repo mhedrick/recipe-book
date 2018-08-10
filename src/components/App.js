@@ -4,21 +4,21 @@ import {
   Route,
 } from 'react-router-dom';
 
-import withAuthentication from './withAuthentication';
+import withAuthentication from '../hoc/withAuthentication';
 
 import 'milligram';
 import './App.css';
 import '../utils/fontawesome';
 
 import Navigation from './Navigation';
-import LandingPage from './Landing';
-import SignInPage from './SignIn';
-import PasswordForgetPage from './PasswordForget';
-import HomePage from './Home';
-import AccountPage from './Account';
-import CreatePage from './Create';
-import ViewPage from './View';
-import EditPage from './Edit';
+import LandingPage from './pages/Landing';
+import SignInPage from './pages/SignIn';
+import PasswordForgetPage from './pages/PasswordForget';
+import HomePage from './pages/Home';
+import AccountPage from './pages/Account';
+import CreatePage from './pages/RecipeCreate';
+import ViewPage from './pages/RecipeView';
+import EditPage from './pages/RecipeEdit';
 
 import * as routes from '../_constants/routes';
 

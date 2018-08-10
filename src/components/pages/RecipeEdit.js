@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router';
 
-import withAuthorization from './withAuthorization';
-import { updateRecipe, fetchRecipeIfNeeded } from '../_actions/recipes';
-import RecipeForm from './RecipeForm';
+import withAuthorization from '../../hoc/withAuthorization';
+import { updateRecipe, fetchRecipeIfNeeded } from '../../_actions/recipes';
+import RecipeForm from '../forms/RecipeForm';
 
 
 class EditPage extends Component {
