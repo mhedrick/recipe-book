@@ -6,7 +6,7 @@ import PasswordForgetForm from '../forms/PasswordForget';
 import PasswordChangeForm from '../forms/PasswordChange';
 import withAuthorization from '../../hoc/withAuthorization';
 
-const AccountPage = ({ authUser }) =>
+export const AccountPage = ({ authUser }) =>
   <div>
     <h2>{authUser.email}</h2>
     <PasswordForgetForm />

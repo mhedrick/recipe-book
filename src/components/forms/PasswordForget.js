@@ -10,7 +10,7 @@ const byPropKey = (propertyName, value) => () => ({
     error: null,
   };
 
-class PasswordForgetForm extends Component {
+export class PasswordForgetForm extends Component {
     constructor(props) {
       super(props);
   
