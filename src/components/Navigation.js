@@ -7,7 +7,7 @@ import * as routes from '../_constants/routes';
 
 import { auth } from '../firebase';
 
-const Navigation = ({ authUser }) =>
+export const Navigation = ({ authUser }) =>
   <nav className="navigation">
     <div className="container">
       { authUser
@@ -17,7 +17,7 @@ const Navigation = ({ authUser }) =>
       </div>
   </nav>
 
-const NavigationAuth = () =>
+export const NavigationAuth = () =>
 <Fragment>
   <ul className="navigation-list">
     <li className="navigation-item"><Link to={routes.LANDING} className="navigation-link">Home</Link></li>
@@ -29,8 +29,7 @@ const NavigationAuth = () =>
   </ul>
 </Fragment>
 
-const NavigationNonAuth = () =>
-
+export const NavigationNonAuth = () =>
 <Fragment>
   <ul className="navigation-list">
     <li className="navigation-item"><Link to={routes.LANDING} className="navigation-link">Home</Link></li>
