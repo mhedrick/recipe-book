@@ -6,16 +6,11 @@ import RecipesList from '../RecipesList';
 
 import withAuthorization from '../../hoc/withAuthorization';
 
-class HomePage extends Component {
+export class HomePage extends Component {
   componentDidMount() {
-    const { dispatch, authUser } = this.props;
+    const { authUser, onFetchRecipe } = this.props;
 
-    dispatch(fetchRecipes(authUser));
-  }
-  onHandleSelectClick(recipe){
-    const { dispatch } = this.props;
-
-    dispatch(selectRecipe(recipe));
+    onFetchRecipe(authUser);
   }
   render() {
     const { recipes } = this.props;
@@ -33,9 +28,13 @@ const mapStateToProps = (state) => ({
   recipes: state.recipesState.items
 });
 
+const mapDispatchToProps = (dispatch)=> ({
+  onFetchRecipe: (authUser) => dispatch(fetchRecipes(authUser))
+});
+
 const authCondition = (authUser) => !!authUser;
 
 export default compose(
   withAuthorization(authCondition),
-  connect(mapStateToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(HomePage);
