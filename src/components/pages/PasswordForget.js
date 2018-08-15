@@ -9,14 +9,9 @@ const PasswordForgetPage = () =>
     <PasswordForgetForm />
   </div>
 
-const PasswordForgetLink = () =>
+export const PasswordForgetLink = () =>
   <p>
     <Link to="/pw-forget">Forgot Password?</Link>
   </p>
 
 export default PasswordForgetPage;
-
-export {
-  PasswordForgetForm,
-  PasswordForgetLink,
-};
