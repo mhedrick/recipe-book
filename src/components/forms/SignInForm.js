@@ -12,7 +12,7 @@ const byPropKey = (propertyName, value) => () => ({
     error: null,
   };
 
-class SignInForm extends Component {
+export class SignInForm extends Component {
     constructor(props) {
       super(props);
   
