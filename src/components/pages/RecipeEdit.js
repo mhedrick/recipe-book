@@ -8,22 +8,24 @@ import { updateRecipe, fetchRecipeIfNeeded } from '../../_actions/recipes';
 import RecipeForm from '../forms/RecipeForm';
 
 
-class EditPage extends Component {
+export class EditPage extends Component {
     componentDidMount() {
-        const { match, dispatch } = this.props;
-        dispatch(fetchRecipeIfNeeded(match.params.id));
+        const { onComponentDidMount } = this.props;
+        
+        onComponentDidMount();
     }
-    handleSubmit(recipe) {
-        const { dispatch, authUser, history } = this.props;
+    handleSubmit = (recipe) => {
+        const { onHandleSubmit } = this.props;
 
-        dispatch(updateRecipe(authUser, recipe, history));
+        onHandleSubmit(recipe);
     }
 
     render() {
+        const { recipe } = this.props;
         return (
             <Fragment>
                 <h2>Edit Recipe</h2>
-                { this.props.recipe.recipeid && <RecipeForm onHandleSubmit={this.handleSubmit.bind(this)} {...this.props} /> }
+                { recipe.recipeid && <RecipeForm onHandleSubmit={this.handleSubmit.bind} {...this.props} /> }
             </Fragment>);
     }
 }
@@ -33,10 +35,15 @@ const mapStateToProps = (state) => ({
     recipe: state.selectedRecipe
 });
 
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    onComponentDidMount: () => dispatch(fetchRecipeIfNeeded(ownProps.match.params.id)),
+    onHandleSubmit: (recipe) => dispatch(updateRecipe(recipe, ownProps.authUser, ownProps.history))
+});
+
 const authCondition = (authUser) => !!authUser;
 
 export default compose(
     withAuthorization(authCondition),
     withRouter,
-    connect(mapStateToProps)
+    connect(mapStateToProps, mapDispatchToProps)
 )(EditPage);
