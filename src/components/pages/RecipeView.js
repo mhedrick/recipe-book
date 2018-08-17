@@ -8,25 +8,19 @@ import { Link } from 'react-router-dom'
 import { fetchRecipeIfNeeded, deleteRecipe } from '../../_actions/recipes';
 import withAuthorization from '../../hoc/withAuthorization';
 
-
-class ViewPage extends Component {
-
+export class ViewPage extends Component {
     componentDidMount() {
-        const { match, dispatch } = this.props;
-        dispatch(fetchRecipeIfNeeded(match.params.id));
+        const { onComponentDidMount } = this.props;
+        onComponentDidMount();
     }
     componentWillUpdate({ recipe }){
         let frag = document.createRange().createContextualFragment(recipe.instructions);
         let appendTarget = findDOMNode(this.refs.instructions); 
         appendTarget.appendChild(frag);
     }
-    onHandleDeleteClick = () => {
-      const { dispatch, authUser, recipe } = this.props;
-  
-      dispatch(deleteRecipe(authUser, recipe.recipeid));
-    }
     render() {
         const { recipename, ingredients, recipeid } = this.props.recipe;
+        const { onHandleDeleteClick } = this.props;
         return (
             <div>
                 <Link to={`/home`}>{"<"} Go Back</Link>
@@ -34,7 +28,7 @@ class ViewPage extends Component {
                     {recipename}{' '}
                     <small style={{ fontSize: '2.2rem'}}><Link to={`/recipe/${recipeid}/edit`}>edit</Link>
                   {" | "}
-                  <a onClick={this.onHandleDeleteClick}>delete</a></small>
+                  <a onClick={onHandleDeleteClick}>delete</a></small>
                 </h2>
                   
                 <h4>Ingredients</h4>
@@ -54,11 +48,15 @@ const mapStateToProps = (state) => ({
     authUser: state.sessionState.authUser,
     recipe: state.selectedRecipe
 });
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    onHandleDeleteClick: () => dispatch(deleteRecipe(authUser, props.recipe.recipeid)),
+    onComponentDidMount: () => dispatch(fetchRecipeIfNeeded(ownProps.match.params.id))
+});
 
 const authCondition = (authUser) => !!authUser;
 
 export default compose(
     withAuthorization(authCondition),
     withRouter,
-    connect(mapStateToProps)
+    connect(mapStateToProps, mapDispatchToProps)
 )(ViewPage);
