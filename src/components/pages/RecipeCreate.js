@@ -14,16 +14,16 @@ const BLANK_INGREDIENT =
   instruction: ""
 };
 
-class CreatePage extends Component {
+export class CreatePage extends Component {
   state = {
     recipename: "",
     instructions: "",
     ingredients: [ BLANK_INGREDIENT ]
   }
   handleSubmit(recipe){
-    const { dispatch, authUser, history } = this.props;
+    const { onSubmitRecipe, authUser, history } = this.props;
 
-    dispatch(addRecipe(authUser, recipe, history));
+    onSubmitRecipe(authUser, recipe, history);
   }
 
   render() {
@@ -37,6 +37,9 @@ class CreatePage extends Component {
 
 const mapStateToProps = (state) => ({
   authUser: state.sessionState.authUser
+});
+const mapDispatchToProps = (dispatch) => ({
+  onSubmitRecipe: (authUser, recipe, history) => dispatch(addRecipe(authUser, recipe, history))
 });
 
 const authCondition = (authUser) => !!authUser;
