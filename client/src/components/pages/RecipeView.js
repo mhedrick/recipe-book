@@ -49,7 +49,7 @@ const mapStateToProps = (state) => ({
     recipe: state.selectedRecipe
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onHandleDeleteClick: () => dispatch(deleteRecipe(authUser, props.recipe.recipeid)),
+    onHandleDeleteClick: () => dispatch(deleteRecipe(ownProps.authUser, ownProps.recipe.recipeid)),
     onComponentDidMount: () => dispatch(fetchRecipeIfNeeded(ownProps.match.params.id))
 });
 

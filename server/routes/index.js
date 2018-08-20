@@ -1,5 +1,7 @@
 const { Router } = require('express');
+const path = require('path');
 const firebaseMiddleware = require('express-firebase-middleware');
+const firebase = require('firebase');
 
 const db = require('../db');
 
@@ -55,6 +57,7 @@ router.get('/api/v1/users/:id/recipes', async (req, res) => {
         res.send(JSON.stringify(e.message));
     }
 });
+
 // crud on recipes
 router.post('/api/v1/recipes/', async (req, res) => {
     const { uid, recipename, ingredients, instructions } = req.body;
@@ -113,4 +116,9 @@ router.delete('/api/v1/recipes/:id', async (req, res) => {
         res.status(500);
         res.send(JSON.stringify(e.message));
     }
+});
+
+// All remaining requests return the React app, so it can handle routing.
+router.get('*', function(request, response) {
+  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });

@@ -36,7 +36,7 @@ export const fetchRecipes = (authUser) => {
     return (dispatch) => {
         dispatch(requestRecipes(authUser.uid));
         authUser.getIdToken().then((idToken) => {
-            return fetch(`http://localhost:5000/api/v1/users/${authUser.uid}/recipes`, {
+            return fetch(`/api/v1/users/${authUser.uid}/recipes`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json; charset=utf-8",
@@ -62,7 +62,7 @@ export const fetchRecipeIfNeeded = (recipeId) => {
 const fetchRecipe = (authUser, recipeId) => {
     return (dispatch) => {
             authUser.getIdToken().then((idToken) => {
-                return fetch(`http://localhost:5000/api/v1/recipes/${recipeId}`, {
+                return fetch(`/api/v1/recipes/${recipeId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json; charset=utf-8",
@@ -79,7 +79,7 @@ export const addRecipe = (authUser, recipe, history) => {
     const { recipename, ingredients, instructions } = recipe;
     return (dispatch) => {
         authUser.getIdToken().then((idToken) => {
-            return fetch("http://localhost:5000/api/v1/recipes", {
+            return fetch("/api/v1/recipes", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json; charset=utf-8",
@@ -106,7 +106,7 @@ export const updateRecipe = (authUser, recipe, history) => {
     const { recipeid, recipename, ingredients, instructions } = recipe;
     return (dispatch) => {
         authUser.getIdToken().then((idToken) => {
-            return fetch(`http://localhost:5000/api/v1/recipes/${recipeid}`, {
+            return fetch(`/api/v1/recipes/${recipeid}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json; charset=utf-8",
@@ -131,7 +131,7 @@ export const updateRecipe = (authUser, recipe, history) => {
 export const deleteRecipe = (authUser, recipeId) => {
     return (dispatch) => {
         authUser.getIdToken().then((idToken) => {
-            return fetch(`http://localhost:5000/api/v1/recipes/${recipeId}`, {
+            return fetch(`/api/v1/recipes/${recipeId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json; charset=utf-8",

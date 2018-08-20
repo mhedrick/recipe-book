@@ -47,5 +47,5 @@ const authCondition = (authUser) => !!authUser;
 export default compose(
   withAuthorization(authCondition),
   withRouter,
-  connect(mapStateToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(CreatePage);

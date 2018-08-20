@@ -1,7 +1,10 @@
 const { Client } = require('pg');
 require('dotenv').load();
 
-const client = new Client();
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+});
 
 client.connect();
 const createTables = async function (){
