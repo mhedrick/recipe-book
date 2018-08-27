@@ -29,7 +29,7 @@ router.get('/api/health', async (req, res) => {
 router.get('/api/v1/users/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { rows } = await db.query('SELECT username FROM users WHERE firebaseuserid = $1', [id]);
+        const { rows } = await db.query('SELECT username FROM users WHERE firebaseuserid = $1;', [id]);
         res.send(rows[0])
     } catch (e) {
         res.status(500);
@@ -43,7 +43,7 @@ router.get('/api/v1/users/:id/recipes', async (req, res) => {
         const { rows } = await db.query(
             `SELECT r.* 
             FROM users u, recipes r 
-            WHERE u.userid = r.userid and u.firebaseuserid = $1`
+            WHERE u.userid = r.userid and u.firebaseuserid = $1;`
             , [id]);
 
         let normalized = rows.reduce((acc, row) => {
@@ -66,7 +66,7 @@ router.post('/api/v1/recipes/', async (req, res) => {
         let { rows } = await db.query(
             `INSERT INTO recipes (recipeid, userid, recipename, ingredients, instructions)
             VALUES (default, (SELECT userid FROM users WHERE firebaseuserid = $1), $2, $3, $4) 
-            RETURNING *`
+            RETURNING *;`
             , [uid, recipename, ingredientsJSON, instructions]);
 
         res.send(rows[0])
@@ -78,7 +78,7 @@ router.post('/api/v1/recipes/', async (req, res) => {
 router.get('/api/v1/recipes/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { rows } = await db.query('SELECT * FROM recipes WHERE recipeid = $1', [id]);
+        const { rows } = await db.query('SELECT * FROM recipes WHERE recipeid = $1;', [id]);
         res.send(rows[0])
     } catch (e) {
         res.status(500);
@@ -96,7 +96,7 @@ router.put('/api/v1/recipes/:id', async (req, res) => {
             ingredients=$3,
             instructions=($4) 
             WHERE recipeid = $1 and userid = (SELECT userid FROM users WHERE firebaseuserid = $5)
-            RETURNING *`,
+            RETURNING *;`,
             [id, recipename, ingredientsJSON, instructions, uid]);
 
         res.send(rows[0])
@@ -109,7 +109,7 @@ router.delete('/api/v1/recipes/:id', async (req, res) => {
     try {
         const { id } = req.params;
         // only let people delete their own recipes
-        const { rows } = await db.query('DELETE FROM recipes WHERE recipeid = $1 and userid = (SELECT userid FROM users WHERE firebaseuserid = $2)', [id, res.locals.user.uid]);
+        const { rows } = await db.query('DELETE FROM recipes WHERE recipeid = $1 and userid = (SELECT userid FROM users WHERE firebaseuserid = $2);', [id, res.locals.user.uid]);
         res.status(200);
         res.send(JSON.stringify({ "success": true }))
     } catch (e) {
