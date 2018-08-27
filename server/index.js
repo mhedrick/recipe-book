@@ -3,14 +3,12 @@ var path = require('path');
 var admin = require("firebase-admin");
 const bodyParser = require('body-parser');
 const cors = require("cors");
-var morgan = require('morgan');
 
 const app = express();
 const dotenv = require('dotenv');
 
 dotenv.load();
-console.log(process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'));
-console.log(process.env.FIREBASE_PRIVATE_KEY);
+
 const PORT = process.env.PORT || 5000;
 admin.initializeApp({
     credential: admin.credential.cert({
@@ -20,11 +18,12 @@ admin.initializeApp({
       }),
     databaseURL: process.env.FIREBASE_URL
 });
+
 const router = require("./routes");
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(morgan('combined'));
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use('/', router);
 app.set( 'port', PORT);

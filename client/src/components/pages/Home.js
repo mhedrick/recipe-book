@@ -18,7 +18,7 @@ export class HomePage extends Component {
     <div>
         <h2>Your recipes</h2>
         {recipes && <RecipesList recipes={recipes} />}
-        {recipes && recipes.length === 0 && <p>No recipes.</p>}
+        {recipes == null || recipes.length === 0 && <p>No recipes.</p>}
       </div>)
   }
 }
