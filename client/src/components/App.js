@@ -13,6 +13,7 @@ import '../utils/fontawesome';
 import Navigation from './Navigation';
 import LandingPage from './pages/Landing';
 import SignInPage from './pages/SignIn';
+import SignUpPage from './pages/SignUp';
 import PasswordForgetPage from './pages/PasswordForget';
 import HomePage from './pages/Home';
 import AccountPage from './pages/Account';
@@ -28,6 +29,7 @@ const App = () =>
       <Navigation />
       <section className="container">
         <Route exact path={routes.LANDING} component={() => <LandingPage />} />
+        <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
         <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
         <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage />} />
         <Route exact path={routes.HOME} component={() => <HomePage />} />

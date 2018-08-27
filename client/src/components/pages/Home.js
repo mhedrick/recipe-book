@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { fetchRecipes, selectRecipe } from '../../_actions/recipes';
+import { fetchRecipes } from '../../_actions/recipes';
 import RecipesList from '../RecipesList';
 
 import withAuthorization from '../../hoc/withAuthorization';
@@ -18,7 +18,7 @@ export class HomePage extends Component {
     <div>
         <h2>Your recipes</h2>
         {recipes && <RecipesList recipes={recipes} />}
-        {recipes == null || recipes.length === 0 && <p>No recipes.</p>}
+        {(recipes == null || recipes.length === 0) && <p>No recipes.</p>}
       </div>)
   }
 }
