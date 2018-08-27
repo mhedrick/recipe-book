@@ -102,7 +102,7 @@ export const addRecipe = (authUser, recipe, history) => {
 };
 
 
-export const updateRecipe = (authUser, recipe, history) => {
+export const updateRecipe = (recipe, authUser, history) => {
     const { recipeid, recipename, ingredients, instructions } = recipe;
     return (dispatch) => {
         authUser.getIdToken().then((idToken) => {

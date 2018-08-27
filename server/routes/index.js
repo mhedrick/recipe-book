@@ -61,7 +61,7 @@ router.get('/api/v1/users/:id/recipes', async (req, res) => {
 // crud on recipes
 router.post('/api/v1/recipes/', async (req, res) => {
     const { uid, recipename, ingredients, instructions } = req.body;
-    const ingredientsJSON = JSON.stringify(ingredients);
+    const ingredientsJSON = ingredients ? JSON.stringify(ingredients) : [];
     try {
         let { rows } = await db.query(
             `INSERT INTO recipes (recipeid, userid, recipename, ingredients, instructions)
@@ -88,7 +88,7 @@ router.get('/api/v1/recipes/:id', async (req, res) => {
 router.put('/api/v1/recipes/:id', async (req, res) => {
     const { id } = req.params;
     const { uid, recipename, ingredients, instructions } = req.body;
-    const ingredientsJSON = JSON.stringify(ingredients);
+    const ingredientsJSON = ingredients ? JSON.stringify(ingredients) : [];
     try {
         const { rows } = await db.query(
             `UPDATE recipes 
