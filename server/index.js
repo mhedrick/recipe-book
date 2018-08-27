@@ -9,11 +9,13 @@ const app = express();
 const dotenv = require('dotenv');
 
 dotenv.load();
+console.log(process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'));
+console.log(process.env.FIREBASE_PRIVATE_KEY);
 const PORT = process.env.PORT || 5000;
 admin.initializeApp({
     credential: admin.credential.cert({
         "project_id": process.env.FIREBASE_PROJECT_ID,
-        "private_key": process.env.FIREBASE_PRIVATE_KEY,
+        "private_key": process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
         "client_email": process.env.FIREBASE_CLIENT_EMAIL
       }),
     databaseURL: process.env.FIREBASE_URL
