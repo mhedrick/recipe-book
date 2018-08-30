@@ -72,9 +72,9 @@ class RecipeForm extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        const { handleSubmit } = this.props;
-
-        handleSubmit(this.state);
+        const { onHandleSubmit, authUser, history } = this.props;
+ 
+        onHandleSubmit(this.state, authUser, history);
     }
     render() {
         let { recipename, ingredients, instructions } = this.state;

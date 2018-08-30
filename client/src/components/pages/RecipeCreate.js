@@ -20,17 +20,12 @@ export class CreatePage extends Component {
     instructions: "",
     ingredients: [ BLANK_INGREDIENT ]
   }
-  handleSubmit(recipe){
-    const { onSubmitRecipe, authUser, history } = this.props;
-
-    onSubmitRecipe(authUser, recipe, history);
-  }
 
   render() {
     return (
       <Fragment>
         <h3>Create Recipe</h3>
-        <RecipeForm recipe={this.state} onHandleSubmit={this.handleSubmit.bind(this)} {...this.props} />
+        <RecipeForm recipe={this.state} {...this.props} />
       </Fragment>);
   }
 }
@@ -38,8 +33,8 @@ export class CreatePage extends Component {
 const mapStateToProps = (state) => ({
   authUser: state.sessionState.authUser
 });
-const mapDispatchToProps = (dispatch) => ({
-  onSubmitRecipe: (authUser, recipe, history) => dispatch(addRecipe(authUser, recipe, history))
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onHandleSubmit: (recipe, user, history) => dispatch(addRecipe(recipe, user, history))
 });
 
 const authCondition = (authUser) => !!authUser;

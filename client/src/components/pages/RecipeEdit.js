@@ -14,18 +14,13 @@ export class EditPage extends Component {
         
         onComponentDidMount();
     }
-    onSubmit = (recipe) => {
-        const { onHandleSubmit } = this.props;
-
-        onHandleSubmit(recipe);
-    }
 
     render() {
         const { recipe } = this.props;
         return (
             <Fragment>
                 <h2>Edit Recipe</h2>
-                { recipe.recipeid && <RecipeForm handleSubmit={this.onSubmit} {...this.props} /> }
+                { recipe.recipeid && <RecipeForm {...this.props} /> }
             </Fragment>);
     }
 }
@@ -37,7 +32,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     onComponentDidMount: () => dispatch(fetchRecipeIfNeeded(ownProps.match.params.id)),
-    onHandleSubmit: (recipe) => dispatch(updateRecipe(recipe, ownProps.authUser, ownProps.history))
+    onHandleSubmit: (recipe, user, history) => dispatch(updateRecipe(recipe, user, history))
 });
 
 const authCondition = (authUser) => !!authUser;

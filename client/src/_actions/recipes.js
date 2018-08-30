@@ -75,7 +75,7 @@ const fetchRecipe = (authUser, recipeId) => {
         }
 }
 
-export const addRecipe = (authUser, recipe, history) => {
+export const addRecipe = (recipe, authUser, history) => {
     const { recipename, ingredients, instructions } = recipe;
     return (dispatch) => {
         authUser.getIdToken().then((idToken) => {
