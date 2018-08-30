@@ -14,7 +14,7 @@ export class EditPage extends Component {
         
         onComponentDidMount();
     }
-    handleSubmit = (recipe) => {
+    onSubmit = (recipe) => {
         const { onHandleSubmit } = this.props;
 
         onHandleSubmit(recipe);
@@ -25,7 +25,7 @@ export class EditPage extends Component {
         return (
             <Fragment>
                 <h2>Edit Recipe</h2>
-                { recipe.recipeid && <RecipeForm handleSubmit={this.handleSubmit} {...this.props} /> }
+                { recipe.recipeid && <RecipeForm handleSubmit={this.onSubmit} {...this.props} /> }
             </Fragment>);
     }
 }
