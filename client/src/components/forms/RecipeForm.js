@@ -122,7 +122,7 @@ class RecipeForm extends Component {
                                     onChange={this.handleIngredientChange.bind(this, ingredient, i)} />
                                 </div>
                                 <div className="column">
-                                    <input type="button" value="Remove" onClick={this.removeIngredient.bind(this)} disabled={this.state.ingredients.length === 1} />
+                                    <input type="button" value="Remove" onClick={this.removeIngredient.bind(this, i)} disabled={this.state.ingredients.length === 1} />
                                 </div>
                             </div>
                         ))}
